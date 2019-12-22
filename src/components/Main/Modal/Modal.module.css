@@ -1,0 +1,19 @@
+.modal {
+    grid-column: 1/4;
+    grid-row: 1/4;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 998;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.results {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    background-color: #eee;
+    padding: 3rem;
+    border-radius: .5rem;
+    text-align: center;
+}
