@@ -13,7 +13,6 @@ class Favorites extends Component {
 
     removeFavorite = location => {
         actions.addOrRemoveFavorite(location)
-        this.setState({})
     }
 
     componentDidMount(){
@@ -21,9 +20,8 @@ class Favorites extends Component {
         const favorites = JSON.parse(favoritesLS)
         if (favorites.length > 0) {
             favorites.forEach( f => {
-                axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${f.Key}?apikey=${process.env.REACT_APP_API_KEY}`)
+                axios.get(`https://dataservice.accuweather.com/currentconditions/v1/${f.Key}?apikey=${process.env.REACT_APP_API_KEY}`)
                     .then(res => {
-                        console.log(res.data[0])
                         let newState = [...this.state.currentWeather, res.data[0]]
                         this.setState({
                             currentWeather: newState
@@ -39,10 +37,8 @@ class Favorites extends Component {
     }
 
     render(){
-        console.log('state:',this.state)
         const favoritesLS = window.localStorage.getItem('favorites')
         const favorites = JSON.parse(favoritesLS)
-        console.log('favorites:',favorites)
 
         return (
             <div className={classes.favorites}>

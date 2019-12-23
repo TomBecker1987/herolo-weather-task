@@ -32,7 +32,7 @@ class Weather extends Component {
 
         if (Object.entries(this.props.currentCondition).length !== 0 && Object.entries(this.props.location).length !== 0) {
             weatherIconNum = this.props.currentCondition[0].WeatherIcon.toString()
-            currentTemperature = this.props.currentCondition[0].Temperature.Metric.Value
+            currentTemperature = this.props.currentCondition[0].Temperature.Metric.Value || null
             currentCity = this.props.location.LocalizedName
             currentCountry = this.props.location.Country.LocalizedName 
             if (weatherIconNum.length === 1) {
@@ -79,8 +79,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        addToFavorites: location => dispatch(actions.addToFavorites(location)),
-        removeFromFavorites: location => dispatch(actions.removeFromFavorites(location))
+        getCurrentWeather: key => actions.getCurrentWeather(key),
+        updateFavorites: favorites => actions.updateFavorites(favorites)
     }
 }
 

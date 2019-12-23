@@ -10,7 +10,7 @@ export const updateLocation = location => {
 
 export const getCurrentWeather = key => {
     return dispatch => {
-        axios.get(`http://dataservice.accuweather.com/currentconditions/v1/${key}?apikey=${process.env.REACT_APP_API_KEY}`)
+        axios.get(`https://dataservice.accuweather.com/currentconditions/v1/${key}?apikey=${process.env.REACT_APP_API_KEY}`)
             .then( res => {
                 dispatch(updateCurrentCondition(res.data))
             })
@@ -26,7 +26,7 @@ export const updateCurrentCondition = data => {
 
 export const getDailyForecasts = key => {
     return dispatch => {
-        axios.get(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${key}?apikey=${process.env.REACT_APP_API_KEY}&metric=true`)
+        axios.get(`https://dataservice.accuweather.com/forecasts/v1/daily/5day/${key}?apikey=${process.env.REACT_APP_API_KEY}&metric=true`)
             .then(res => {
                 dispatch(updateForecasts(res.data.DailyForecasts))
             })
@@ -54,7 +54,7 @@ export const toggleModal = () => {
 
 export const locationRequest = search => {
     return dispatch => {
-        axios.get(`http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_API_KEY}&q=${search}&language=en-us`)
+        axios.get(`https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_API_KEY}&q=${search}&language=en-us`)
             .then( res => {
                 if (res.data.length > 0) {
                     dispatch(updateLocation(res.data[0]))
@@ -67,16 +67,9 @@ export const locationRequest = search => {
     }
 }
 
-export const addToFavorites = data => {
+export const updateFavorites = data => {
     return {
-        type: actionTypes.ADD_FAVORITE,
-        val: data
-    }
-}
-
-export const removeFromFavorites = data => {
-    return {
-        type: actionTypes.REMOVE_FAVORITE,
+        type: actionTypes.UPDATE_FAVORITE,
         val: data
     }
 }
@@ -87,10 +80,12 @@ export const addOrRemoveFavorite = location => {
     let find = currentFavorites.find( f => f.Key === location.Key)
     if (find) {
         let newCurrentFavorites = currentFavorites.filter( f => f.Key !== location.Key )
+        updateForecasts(newCurrentFavorites)
         newCurrentFavorites = JSON.stringify(newCurrentFavorites)
         window.localStorage.setItem('favorites', newCurrentFavorites)
     } else {
         currentFavorites.push(location)
+        updateFavorites(currentFavorites)
         let newCurrentFavorites = JSON.stringify(currentFavorites)
         window.localStorage.setItem('favorites', newCurrentFavorites)
     }

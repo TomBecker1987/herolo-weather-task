@@ -17,29 +17,7 @@ const initialState = {
       }
     },
     locationKey:'215854',
-    currentCondition: [{
-      "LocalObservationDateTime": "2019-12-21T11:31:00+01:00",
-      "EpochTime": 1576924260,
-      "WeatherText": "Sunny",
-      "WeatherIcon": 1,
-      "HasPrecipitation": false,
-      "PrecipitationType": null,
-      "IsDayTime": true,
-      "Temperature": {
-        "Metric": {
-          "Value": 8.2,
-          "Unit": "C",
-          "UnitType": 17
-        },
-        "Imperial": {
-          "Value": 47,
-          "Unit": "F",
-          "UnitType": 18
-        }
-      },
-      "MobileLink": "http://m.accuweather.com/en/de/berlin/10178/current-weather/178087?lang=en-us",
-      "Link": "http://www.accuweather.com/en/de/berlin/10178/current-weather/178087?lang=en-us"
-    }],
+    currentCondition: [],
       dailyForecasts: {
         "Headline": {
           "EffectiveDate": "2019-12-25T19:00:00+02:00",
@@ -216,7 +194,8 @@ const initialState = {
           }
         ]
       },
-    locationError: false
+    locationError: false,
+    favorites: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -249,6 +228,11 @@ const reducer = (state = initialState, action) => {
               ...state,
               dailyForecasts: action.val
             }
+        case actionTypes.UPDATE_FAVORITE:
+          return {
+            ...state,
+            favorites: action.val
+          }
     }
 
     return state
