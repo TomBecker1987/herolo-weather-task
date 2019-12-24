@@ -4,7 +4,7 @@ import classes from './Card.module.css'
 class Card extends Component {
     render(){
 
-        const days = this.props.days
+        const day = this.props.day
         const index = this.props.index
         const temperature = this.props.temperature
         const iconNum = this.props.iconNum
@@ -16,7 +16,7 @@ class Card extends Component {
         const data = iconNum? 
             <>
                 <h4 className={classes.day}>
-                    {days[index]}
+                    {day}
                 </h4>
                 <p className={classes.temperature}>
                     {`${temperature}°c`}

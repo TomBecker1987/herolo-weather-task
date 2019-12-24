@@ -17,6 +17,26 @@ class Weather extends Component {
         this.setState({})
     }
 
+    getCurrentDays = todayIndex => {
+        let index = todayIndex + 1
+        let newArray = []
+        let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        const array = [0,1,2,3,4,5,6]
+        array.forEach( i => {
+            if ( i + index >= 7 ) {
+                newArray.push( i + index - 7 )
+            } else {
+                newArray.push( i + index )
+            }
+        } )
+
+        const newDays = newArray.map( i => {
+            return days[i]
+        } )
+
+        return newDays
+    }
+
     render(){
         let heart
         const favoritesLS = window.localStorage.getItem('favorites')
@@ -28,7 +48,9 @@ class Weather extends Component {
             heart = 'far fa-heart'
         }
         let weatherIconNum
-        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        const date = new Date()
+        const todayIndex = date.getDay()
+        const correctDays = this.getCurrentDays(todayIndex)
         let currentTemperature
         let currentCity
         let currentCountry
@@ -64,7 +86,7 @@ class Weather extends Component {
                 {data}
                 <div className={classes.forecasts}>
                     {forecasts? forecasts.map( (f, index) => (
-                        <Card days={days} key={index} index={index} temperature={f.Temperature.Maximum.Value} iconNum={f.Day.Icon}/>
+                        <Card day={correctDays[index]} key={index} temperature={f.Temperature.Maximum.Value} iconNum={f.Day.Icon}/>
                     ) ) : null}
                 </div>
             </div>
