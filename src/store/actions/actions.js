@@ -69,7 +69,7 @@ export const locationRequest = search => {
 
 export const updateFavorites = data => {
     return {
-        type: actionTypes.UPDATE_FAVORITE,
+        type: actionTypes.UPDATE_FAVORITES,
         val: data
     }
 }
@@ -79,14 +79,27 @@ export const addOrRemoveFavorite = location => {
     let currentFavorites = JSON.parse(currentFavoritesLS)
     let find = currentFavorites.find( f => f.Key === location.Key)
     if (find) {
-        let newCurrentFavorites = currentFavorites.filter( f => f.Key !== location.Key )
-        updateForecasts(newCurrentFavorites)
-        newCurrentFavorites = JSON.stringify(newCurrentFavorites)
-        window.localStorage.setItem('favorites', newCurrentFavorites)
+        return dispatch => {
+            let newCurrentFavorites = currentFavorites.filter( f => f.Key !== location.Key )
+            dispatch(updateFavorites(newCurrentFavorites))
+            let newCurrentFavoritesString = JSON.stringify(newCurrentFavorites)
+            window.localStorage.setItem('favorites', newCurrentFavoritesString)
+        }
     } else {
-        currentFavorites.push(location)
-        updateFavorites(currentFavorites)
-        let newCurrentFavorites = JSON.stringify(currentFavorites)
-        window.localStorage.setItem('favorites', newCurrentFavorites)
+        return dispatch => {
+            currentFavorites.push(location)
+            dispatch(updateFavorites(currentFavorites))
+            let newCurrentFavorites = JSON.stringify(currentFavorites)
+            window.localStorage.setItem('favorites', newCurrentFavorites)
+        }
+    }
+}
+
+export const getFavoritesFromLS = () => {
+    const currentFavoritesLS = window.localStorage.getItem('favorites')
+    const currentFavorites = JSON.parse(currentFavoritesLS)
+    return {
+        type: actionTypes.UPDATE_FAVORITES,
+        val: currentFavorites
     }
 }

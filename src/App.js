@@ -15,6 +15,7 @@ class App extends Component {
     this.props.onLocationRequest('tel aviv')
     this.props.getCurrentWeather('215854')
     this.props.getDailyForecasts('215854')
+    this.props.getFavoritesFromLS()
   }
 
   render(){
@@ -34,12 +35,19 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    favorites: state.favorites
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     onLocationRequest: location => dispatch(actions.locationRequest(location)),
     getCurrentWeather: key => dispatch(actions.getCurrentWeather(key)),
-    getDailyForecasts: key => dispatch(actions.getDailyForecasts(key))
+    getDailyForecasts: key => dispatch(actions.getDailyForecasts(key)),
+    getFavoritesFromLS: () => dispatch(actions.getFavoritesFromLS())
   }
 }
 
-export default connect(null, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

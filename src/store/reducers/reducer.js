@@ -228,7 +228,7 @@ const reducer = (state = initialState, action) => {
               ...state,
               dailyForecasts: action.val
             }
-        case actionTypes.UPDATE_FAVORITE:
+        case actionTypes.UPDATE_FAVORITES:
           return {
             ...state,
             favorites: action.val

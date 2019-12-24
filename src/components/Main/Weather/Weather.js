@@ -8,8 +8,12 @@ class Weather extends Component {
 
     state = {}
 
+    componentDidMount(){
+        this.props.getCurrentWeather(this.props.location.Key)
+    }
+
     addRemoveFavorite = location => {
-        actions.addOrRemoveFavorite(location)
+        this.props.addOrRemoveFavorites(location)
         this.setState({})
     }
 
@@ -79,8 +83,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getCurrentWeather: key => actions.getCurrentWeather(key),
-        updateFavorites: favorites => actions.updateFavorites(favorites)
+        getCurrentWeather: key => dispatch(actions.getCurrentWeather(key)),
+        updateFavorites: favorites => dispatch(actions.updateFavorites(favorites)),
+        addOrRemoveFavorites: location => dispatch(actions.addOrRemoveFavorite(location))
     }
 }
 

@@ -8,17 +8,12 @@ import { Link } from 'react-router-dom'
 class Favorites extends Component {
 
     state = {
-        currentWeather: []
-    }
-
-    removeFavorite = location => {
-        actions.addOrRemoveFavorite(location)
+        currentWeather: [],
+        favorites: JSON.parse(window.localStorage.getItem('favorites'))
     }
 
     componentDidMount(){
-        const favoritesLS = window.localStorage.getItem('favorites')
-        const favorites = JSON.parse(favoritesLS)
-        if (favorites.length > 0) {
+        let favorites = this.state.favorites
             favorites.forEach( f => {
                 axios.get(`https://dataservice.accuweather.com/currentconditions/v1/${f.Key}?apikey=${process.env.REACT_APP_API_KEY}`)
                     .then(res => {
@@ -28,7 +23,13 @@ class Favorites extends Component {
                         })
                     })
             } )
-        }
+    }
+
+    removeFavorite = location => {
+        this.props.addOrRemoveFavorite(location)
+        this.setState(prevState => ({
+            favorites: prevState.favorites.filter( f => f.Key !== location.Key )
+        }))
     }
 
     redirectToLocation = location => {
@@ -37,15 +38,14 @@ class Favorites extends Component {
     }
 
     render(){
-        const favoritesLS = window.localStorage.getItem('favorites')
-        const favorites = JSON.parse(favoritesLS)
+        const favorites = this.state.favorites
 
         return (
             <div className={classes.favorites}>
                 <h2>FAVORITES</h2>
                 <div className={classes.cards}>
                     <div className={classes.cardsContainer}>
-                        {favorites.map( (f, index) => <div key={new Date()} className={classes.card}>
+                        {favorites? favorites.map( (f, index) => <div key={f.Key} className={classes.card}>
                             <div className={classes.locationName} onClick={() => this.redirectToLocation(f)}>
                                 <Link to="/">
                                   <h4>{f.LocalizedName}</h4>
@@ -59,7 +59,7 @@ class Favorites extends Component {
                                 {this.state.currentWeather[index] ? this.state.currentWeather[index].WeatherText: null}
                             </div>
                             <a className={classes.delete} onClick={() => this.removeFavorite(f)}><i className="fas fa-trash"></i></a>
-                        </div> )}
+                        </div> ) : null}
                     </div>
                 </div>
             </div>
@@ -67,11 +67,20 @@ class Favorites extends Component {
     }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return {
-        updateCurrentLocation: location => dispatch(actions.updateLocation(location)),
-        getDailyForecasts: key => dispatch(actions.getDailyForecasts(key))
+        favorites: state.favorites
     }
 }
 
-export default connect(null, mapDispatchToProps)(Favorites)
+
+const mapDispatchToProps = dispatch => {
+    return {
+        updateCurrentLocation: location => dispatch(actions.updateLocation(location)),
+        getDailyForecasts: key => dispatch(actions.getDailyForecasts(key)),
+        getFavoritesFromLS: () => dispatch(actions.getFavoritesFromLS()),
+        addOrRemoveFavorite: location => dispatch(actions.addOrRemoveFavorite(location))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Favorites)
