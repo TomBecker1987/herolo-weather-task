@@ -52,6 +52,14 @@ export const toggleModal = () => {
     }
 }
 
+export const weatherRequest = location => {
+    return dispatch => {
+        dispatch(updateLocation(location))
+        dispatch(getCurrentWeather(location.Key))
+        dispatch(getDailyForecasts(location.Key))
+    }
+}
+
 export const locationRequest = search => {
     return dispatch => {
         axios.get(`https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_API_KEY}&q=${search}&language=en-us`)

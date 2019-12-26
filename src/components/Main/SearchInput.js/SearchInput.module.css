@@ -1,12 +1,14 @@
 .group {
     width: 30rem;
-    height: 3rem;
+    height: auto;
     grid-column: 2/3;
     grid-row: 1/2;
     height: 3rem;
     justify-self: center;
     align-self: center;
     position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr;
 }
 
 @media only screen and (max-width: 37.5rem) {
@@ -16,7 +18,7 @@
   } 
 
 .input {
-    height: 100%;
+    height: 4rem;
     width: 100%;
     font-size: 1.5rem;
     font-family: inherit;
@@ -28,8 +30,8 @@
     border-bottom: 3px solid transparent;
     display: block;
     transition: all .3s;
-
-    
+    grid-row: 1/2;
+    grid-column: 1/2;
 }
 
 .input:focus {
@@ -49,7 +51,7 @@
 .input:placeholder-shown + .label {
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-4rem);
+    transform: translateY(4rem);
 }
 
 .label {
@@ -59,22 +61,46 @@
     margin-top: .7rem;
     display: block;
     transition: all .3s;
+    grid-column: 1/2;
+    grid-row: 1/2;
+    position: relative;
+    top: -3rem;
 }
 
 .icon {
-    width: 200px;
-    height: 200px;
+    height: auto;
+    width: auto;
+    margin-right: 1rem;
     color: grey;
     cursor: pointer;
-    position: relative;
-        top: -5.6rem;
-        left: 27.5rem;
+    justify-self: end;
+    align-self: center;
+    display: inline-block;
+    grid-column: 1/2;
+    grid-row: 1/2;
+    justify-self: end;
+    align-self: center;
 }
 
-@media only screen and (max-width: 37.5rem) {
-    .icon {
-        position: relative;
-        left: calc(100vw - 8rem);
-        height: 5rem;
-    }
-  }
+.suggestions {
+    height: auto;
+    width: 100%;
+    font-size: 1.5rem;
+    font-family: inherit;
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 1rem;
+    background-color: #eee;
+    border: none;
+    border-bottom: 3px solid transparent;
+    display: block;
+    list-style: none;
+    grid-column: 1/2;
+    grid-row: 2/3;
+    box-shadow: 0 1rem 2rem rgba(0,0,0, .1);
+}
+
+.suggestions li {
+    padding: .5rem;
+    cursor: pointer;
+}

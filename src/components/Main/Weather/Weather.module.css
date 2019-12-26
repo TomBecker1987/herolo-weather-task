@@ -7,12 +7,12 @@
     display: grid;
     grid-template-rows: 40% minmax(40%, max-content);
     overflow-y: auto;
+    margin-top: 1rem;
 }
 
 .currentImage {
-    height: 10rem;
-    margin-left: -1rem;
-    margin-top: 1.5rem;
+    height: 6rem;
+    margin: 3rem;
 }
 
 .today h4 {
