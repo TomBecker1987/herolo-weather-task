@@ -52,11 +52,9 @@ class SearchInput extends Component {
     }
 
     onDelete = e => {
-        if (e.keyCode === 8) {
-            this.setState({
-                showSuggestions: true
-            })
-        }
+        this.setState({
+            showSuggestions: true
+        })
     }
     
     render(){
