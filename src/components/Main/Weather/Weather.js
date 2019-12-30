@@ -79,13 +79,13 @@ class Weather extends Component {
             </div>
         }
         
-        const forecasts = this.props.forecasts.DailyForecasts || this.props.forecasts
+        const forecasts = this.props.forecasts
 
         return (
             <div className={classes.weather}>
                 {data}
                 <div className={classes.forecasts}>
-                    {forecasts? forecasts.map( (f, index) => (
+                    {forecasts.length > 0? forecasts.map( (f, index) => (
                         <Card day={correctDays[index]} key={index} temperature={f.Temperature.Maximum.Value} iconNum={f.Day.Icon}/>
                     ) ) : null}
                 </div>
