@@ -51,10 +51,14 @@ class SearchInput extends Component {
         })
     }
 
-    onDelete = e => {
-        this.setState({
-            showSuggestions: true
-        })
+    onKey = e => {
+        if (e.keyCode !== 13) {
+            this.setState({
+                showSuggestions: true
+            })
+        } else {
+            this.sendLocationRequest(this.state.currentSearch)
+        }
     }
     
     render(){
@@ -64,7 +68,7 @@ class SearchInput extends Component {
         return (
             <>
                 <div className={classes.group}>
-                    <input type="text" onKeyDown={event => this.onDelete(event)} className={classes.input} value={this.state.currentSearch} onChange={this.searchLocationHandler} placeholder="Enter a city" id="name" required/>
+                    <input type="text" onKeyDown={event => this.onKey(event)} className={classes.input} value={this.state.currentSearch} onChange={this.searchLocationHandler} placeholder="Enter a city" id="name" required/>
                     <label htmlFor="name" className={classes.label}>Enter a city</label>
                     <a className={classes.icon}><i className='fas fa-search' onClick={() => this.sendLocationRequest(this.state.currentSearch)}></i></a>
                     {suggestions}
